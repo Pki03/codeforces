@@ -5,47 +5,32 @@ public class B_Taxi {
     public static void main(String[] args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine().trim());
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int one = 0, two = 0, three = 0, four = 0;
+        String[] parts = br.readLine().trim().split(" ");
+        int[] arr = new int[n];
 
         for(int i = 0; i < n; i++){
-            int x = Integer.parseInt(st.nextToken());
-            if(x == 1) one++;
-            else if(x == 2) two++;
-            else if(x == 3) three++;
-            else four++;
+            arr[i] = Integer.parseInt(parts[i]);
         }
 
+        Arrays.sort(arr);
+
+        int i = 0, j = n - 1;
         int taxis = 0;
 
-        // Step 1: all 4s
-        taxis += four;
+        while(i <= j){
+            int capacity = 4;
+            capacity -= arr[j];  // take largest
+            j--;
 
-        // Step 2: 3 + 1
-        int pair = Math.min(three, one);
-        taxis += pair;
-        three -= pair;
-        one -= pair;
+            // fill with smallest as much as possible
+            while(i <= j && arr[i] <= capacity){
+                capacity -= arr[i];
+                i++;
+            }
 
-        // Step 3: remaining 3s
-        taxis += three;
-
-        // Step 4: 2 + 2
-        taxis += two / 2;
-        two = two % 2;
-
-        // Step 5: one 2 + up to two 1s
-        if(two == 1){
             taxis++;
-            one -= Math.min(2, one);
-        }
-
-        // Step 6: remaining 1s
-        if(one > 0){
-            taxis += (one + 3) / 4;
         }
 
         System.out.println(taxis);
