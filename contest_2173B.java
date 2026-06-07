@@ -1,4 +1,4 @@
-package contest2173;
+
 import java.util.*;
 
 //couldnt solve
